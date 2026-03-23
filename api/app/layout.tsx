@@ -21,9 +21,31 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "SelecText AI",
+  "applicationCategory": "BrowserApplication",
+  "operatingSystem": "Chrome",
+  "description": "英語テキストを選択して右クリック。Claude AIが瞬時に日本語で解説・翻訳・要約します。",
+  "url": "https://selectext-ai-api.vercel.app",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "JPY",
+    "description": "無料10回/日。プロプランは年額9,800円",
+  },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body style={{ margin: 0, padding: 0, background: '#0f0f1a', color: '#e2e8f0' }}>
         {children}
       </body>
