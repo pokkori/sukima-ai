@@ -1,4 +1,7 @@
 import React from 'react';
+import ExtPay from 'extpay';
+
+const extpay = ExtPay('selectext-ai');
 
 interface UpgradeModalProps {
   onClose: () => void;
@@ -6,15 +9,7 @@ interface UpgradeModalProps {
 
 export function UpgradeModal({ onClose }: UpgradeModalProps) {
   const handleUpgrade = async () => {
-    // ExtensionPay が利用可能な場合は openPaymentPage を呼ぶ
-    // ExtensionPay の型宣言がない場合に備えて any 経由でアクセス
-    const extpay = (window as unknown as { ExtPay?: (id: string) => { openPaymentPage: () => Promise<void> } }).ExtPay;
-    if (extpay) {
-      const ep = extpay('selectext-ai');
-      await ep.openPaymentPage();
-    } else {
-      window.open('https://selectext-ai-api.vercel.app/#pricing', '_blank');
-    }
+    await extpay.openPaymentPage();
   };
 
   return (

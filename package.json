@@ -1,5 +1,5 @@
 {
-  "name": "selectext-ai",
+  "name": "chrome-extension-sukima-ai",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "extpay": "^3.1.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

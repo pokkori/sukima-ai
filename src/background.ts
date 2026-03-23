@@ -1,5 +1,12 @@
 // SelecText AI - Service Worker (MV3)
 // MV3ルール: グローバル変数禁止・chrome.alarms使用・return true必須
+import ExtPay from 'extpay';
+const extpay = ExtPay('selectext-ai');
+extpay.startBackground();
+
+extpay.onPaid.addListener(() => {
+  chrome.storage.local.set({ isPro: true });
+});
 
 export const TEMPLATE_PROMPTS: Record<string, string> = {
   explain: `以下の英語テキストを、日本人ビジネスパーソンに向けて日本語で解説してください。専門用語は括弧内に英語を残してください。300字以内。\n\nテキスト:\n{{text}}`,
