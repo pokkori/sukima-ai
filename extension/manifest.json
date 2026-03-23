@@ -39,7 +39,8 @@
     "alarms"
   ],
   "host_permissions": [
-    "https://selectext-ai-api.vercel.app/*"
+    "https://selectext-ai-api.vercel.app/*",
+    "https://api-six-olive-54.vercel.app/*"
   ],
   "options_ui": {
     "page": "options/options.html",
