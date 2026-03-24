@@ -10,11 +10,16 @@ const ALLOWED_EXTENSION_ID = process.env.ALLOWED_EXTENSION_ID ?? '';
 const PROMPTS: Record<string, (text: string) => string> = {
   explain: (text) => `以下の英語テキストを、日本人ビジネスパーソンに向けて日本語で解説してください。\n専門用語は括弧内に英語を残してください。300字以内。\n\nテキスト:\n${text}`,
   translate: (text) => `以下の英語テキストを自然な日本語に翻訳してください。\n直訳でなく、日本語として読みやすい表現にしてください。\n\nテキスト:\n${text}`,
+  translate_ja_en: (text) => `以下の日本語テキストを、ビジネスシーンで使用できる丁寧な英語に翻訳してください。自然で読みやすい英文を心がけてください。\n\nテキスト:\n${text}`,
   summarize: (text) => `以下のテキストの要点を日本語で3箇条にまとめてください。\n各箇条は50字以内。箇条書き形式（・で開始）。\n\nテキスト:\n${text}`,
   tax: (text) => `以下の英語テキストを、日本の確定申告・税務の文脈で日本語解説してください。日本の税制（所得税・消費税・法人税）との関連性を含めてください。\n\nテキスト:\n${text}`,
   business: (text) => `以下の英語テキストを、日本のビジネス・契約の文脈で日本語解説してください。法的リスクや日本のビジネス慣行との違いがあれば指摘してください。\n\nテキスト:\n${text}`,
   medical: (text) => `以下の英語テキストを、医療・健康の文脈で日本語解説してください。専門用語は日本語の医学用語に置き換えてください。\n\nテキスト:\n${text}`,
   simple: (text) => `以下の英語テキストを、小学生でも理解できる日本語で説明してください。難しい言葉は使わず、具体的な例を挙げてください。\n\nテキスト:\n${text}`,
+  legal: (text) => `以下のテキストを法律的な観点から解説してください。専門用語は平易な言葉で説明し、注意すべき法的リスクがあれば指摘してください。なお、これは一般的な情報提供であり、個別の法律相談ではありません:\n\n${text}`,
+  business_email: (text) => `以下のメール内容への返信文を、ビジネスメールとして適切な敬語で作成してください。件名・挨拶・本文・締めの言葉を含む完全なメール形式で出力してください:\n\n${text}`,
+  contract_check: (text) => `以下の契約書・規約文を確認し、注意すべき条項・リスクのある表現・不利な条件を箇条書きで指摘してください。なお、これは一般的な情報提供であり、法律専門家への相談の代替ではありません:\n\n${text}`,
+  sns: (text) => `以下のテキストをX（Twitter）投稿用に最適化してください。140文字以内・ハッシュタグ2〜3個付き・エンゲージメントが高まる表現で作成してください:\n\n${text}`,
 };
 
 function getCorsHeaders(extensionId?: string): HeadersInit {
@@ -39,7 +44,7 @@ export async function OPTIONS(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  let body: { extensionId?: string; actionType?: string; selectedText?: string; pageUrl?: string };
+  let body: { extensionId?: string; actionType?: string; selectedText?: string };
 
   try {
     body = await req.json();
@@ -155,7 +160,7 @@ export async function POST(req: NextRequest) {
               await supabase.from('usage_logs').insert({
                 user_id: user.id,
                 extension_id: extensionId,
-                action_type: ['explain', 'translate', 'summarize'].includes(actionType)
+                action_type: Object.keys(PROMPTS).includes(actionType ?? '')
                   ? actionType
                   : 'explain',
                 input_chars: selectedText.length,

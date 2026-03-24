@@ -8,12 +8,17 @@ interface ResultPanelProps {
 
 const ACTION_LABELS: Record<string, { label: string; color: string }> = {
   explain: { label: '解説', color: '#3b82f6' },
-  translate: { label: '翻訳', color: '#10b981' },
+  translate: { label: '英→日翻訳', color: '#10b981' },
+  translate_ja_en: { label: '日→英翻訳', color: '#059669' },
   summarize: { label: '要約', color: '#8b5cf6' },
   tax: { label: '税務', color: '#f59e0b' },
   business: { label: 'ビジネス', color: '#6366f1' },
   medical: { label: '医療', color: '#ec4899' },
   simple: { label: '子ども向け', color: '#06b6d4' },
+  legal: { label: '法律', color: '#ef4444' },
+  business_email: { label: 'メール返信', color: '#6366f1' },
+  contract_check: { label: '契約書チェック', color: '#f97316' },
+  sns: { label: 'SNS投稿', color: '#0ea5e9' },
 };
 
 export function ResultPanel({ text, isStreaming, actionType }: ResultPanelProps) {

@@ -10,6 +10,13 @@ import { getDailyCount } from './hooks/useDailyLimit';
 
 type Tab = 'result' | 'history';
 
+// content script から受信するメッセージ型
+interface AIResultMessage {
+  type: 'AI_RESULT_CHUNK' | 'AI_RESULT_DONE';
+  chunk?: string;
+  actionType?: string;
+}
+
 export function App() {
   const [dailyCount, setDailyCount] = useState(0);
   const [isPro, setIsPro] = useState(false);
@@ -17,6 +24,9 @@ export function App() {
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [resultText, setResultText] = useState('');
+  const [isStreaming, setIsStreaming] = useState(false);
+  const [resultActionType, setResultActionType] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const init = async () => {
@@ -37,6 +47,22 @@ export function App() {
       setLoading(false);
     };
     init();
+  }, []);
+
+  // content script / background からのAI結果を受信
+  useEffect(() => {
+    const listener = (message: AIResultMessage) => {
+      if (message.type === 'AI_RESULT_CHUNK') {
+        if (message.actionType) setResultActionType(message.actionType);
+        setIsStreaming(true);
+        setResultText((prev) => prev + (message.chunk ?? ''));
+        setActiveTab('result');
+      } else if (message.type === 'AI_RESULT_DONE') {
+        setIsStreaming(false);
+      }
+    };
+    chrome.runtime.onMessage.addListener(listener);
+    return () => chrome.runtime.onMessage.removeListener(listener);
   }, []);
 
   if (loading) {
@@ -112,7 +138,7 @@ export function App() {
       {/* コンテンツエリア */}
       <div style={{ overflowY: 'auto', maxHeight: '380px' }}>
         {activeTab === 'result' ? (
-          <ResultPanel text="" isStreaming={false} />
+          <ResultPanel text={resultText} isStreaming={isStreaming} actionType={resultActionType} />
         ) : (
           <HistoryList />
         )}

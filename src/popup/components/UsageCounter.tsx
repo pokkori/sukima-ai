@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { useUsageCount } from '../hooks/useUsageCount';
+import React, { useState, useEffect } from 'react';
+import { getDailyCount } from '../hooks/useDailyLimit';
+
+const FREE_LIMIT = 10;
 
 interface UsageCounterProps {
   isPro: boolean;
@@ -7,8 +9,20 @@ interface UsageCounterProps {
 }
 
 export function UsageCounter({ isPro, onUpgradeClick }: UsageCounterProps) {
-  const { count, remaining, isLimitReached, FREE_LIMIT } = useUsageCount();
-  const [showModal, setShowModal] = useState(isLimitReached);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    getDailyCount().then((c) => setCount(c));
+  }, []);
+
+  const remaining = Math.max(FREE_LIMIT - count, 0);
+  const isLimitReached = count >= FREE_LIMIT;
+  const [showModal, setShowModal] = useState(false);
+
+  // countが更新されたらモーダル状態も更新
+  useEffect(() => {
+    if (isLimitReached) setShowModal(true);
+  }, [isLimitReached]);
 
   if (isPro) return null;
 
@@ -99,7 +113,7 @@ export function UsageCounter({ isPro, onUpgradeClick }: UsageCounterProps) {
             aria-label="Proプランへアップグレードする"
             type="button"
             style={{
-              minHeight: '32px',
+              minHeight: '44px',
               padding: '4px 12px',
               background: '#f59e0b',
               border: 'none',

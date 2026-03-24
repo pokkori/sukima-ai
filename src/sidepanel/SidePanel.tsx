@@ -88,7 +88,7 @@ export function SidePanel() {
             type="button"
             title={preset.description}
             style={{
-              minHeight: '32px',
+              minHeight: '44px',
               padding: '4px 12px',
               background: selectedPresetId === preset.id
                 ? `rgba(${hexToRgb(preset.color)}, 0.2)`

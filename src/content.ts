@@ -81,7 +81,6 @@ export async function fetchAIResult(
         extensionId,
         actionType,
         selectedText: text,
-        pageUrl: window.location.href,
       }),
     });
 

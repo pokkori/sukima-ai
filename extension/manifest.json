@@ -40,7 +40,8 @@
     "activeTab",
     "scripting",
     "alarms",
-    "sidePanel"
+    "sidePanel",
+    "notifications"
   ],
   "host_permissions": [
     "https://selectext-ai-api.vercel.app/*",

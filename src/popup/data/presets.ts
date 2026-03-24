@@ -17,9 +17,17 @@ export const PRESETS: Preset[] = [
   },
   {
     id: 'translate',
-    label: '英語翻訳',
-    description: '日本語→英語（ビジネス敬語）に翻訳します',
+    label: '英→日翻訳',
+    description: '英語→日本語（自然な日本語）に翻訳します',
     color: '#10b981',
+    systemPrompt:
+      '以下の英語テキストを自然な日本語に翻訳してください。直訳でなく、日本語として読みやすい表現にしてください。',
+  },
+  {
+    id: 'translate_ja_en',
+    label: '日→英翻訳',
+    description: '日本語→英語（ビジネス敬語）に翻訳します',
+    color: '#059669',
     systemPrompt:
       '以下の日本語テキストを、ビジネスシーンで使用できる丁寧な英語に翻訳してください。自然で読みやすい英文を心がけてください。',
   },

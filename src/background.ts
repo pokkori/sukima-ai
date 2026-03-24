@@ -92,6 +92,9 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 // 定期的な使用量キャッシュ同期（chrome.alarms使用 - setInterval禁止）
 chrome.alarms.create('syncUsageCache', { periodInMinutes: 60 });
 
+// 週次レポート通知（7日 = 10080分）
+chrome.alarms.create('weeklyReport', { periodInMinutes: 10080 });
+
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === 'syncUsageCache') {
     try {
@@ -106,6 +109,19 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     } catch {
       // ネットワークエラーは無視
     }
+  }
+
+  if (alarm.name === 'weeklyReport') {
+    chrome.storage.local.get(['weeklyUsageCount'], (result) => {
+      const count = (result['weeklyUsageCount'] as number) || 0;
+      chrome.notifications.create('weeklyReport', {
+        type: 'basic',
+        iconUrl: 'icon128.png',
+        title: 'すき間AIの週次レポート',
+        message: `今週は${count}回使用しました！引き続きご活用ください。`,
+      });
+      chrome.storage.local.set({ weeklyUsageCount: 0 });
+    });
   }
 });
 
