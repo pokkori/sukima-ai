@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface ResultPanelProps {
   text: string;
@@ -23,23 +23,59 @@ const ACTION_LABELS: Record<string, { label: string; color: string }> = {
 
 export function ResultPanel({ text, isStreaming, actionType }: ResultPanelProps) {
   const action = actionType ? ACTION_LABELS[actionType] : null;
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    if (!text) return;
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
 
   return (
     <div style={{ padding: '12px 16px' }}>
-      {action && (
-        <div style={{
-          display: 'inline-block',
-          padding: '2px 8px',
-          borderRadius: '4px',
-          fontSize: '11px',
-          fontWeight: 600,
-          background: action.color,
-          color: '#ffffff',
-          marginBottom: '8px',
-        }}>
-          {action.label}
-        </div>
-      )}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+        {action ? (
+          <div style={{
+            display: 'inline-block',
+            padding: '2px 8px',
+            borderRadius: '4px',
+            fontSize: '11px',
+            fontWeight: 600,
+            background: action.color,
+            color: '#ffffff',
+          }}>
+            {action.label}
+          </div>
+        ) : <div />}
+
+        {text && !isStreaming && (
+          <button
+            onClick={handleCopy}
+            aria-label="結果をコピー"
+            type="button"
+            style={{
+              minHeight: '44px',
+              minWidth: '44px',
+              padding: '4px 12px',
+              background: copied
+                ? 'rgba(16,185,129,0.15)'
+                : 'rgba(255,255,255,0.05)',
+              border: `1px solid ${copied ? 'rgba(16,185,129,0.4)' : 'rgba(255,255,255,0.12)'}`,
+              borderRadius: '8px',
+              color: copied ? '#10b981' : '#94a3b8',
+              fontSize: '12px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              transition: 'all 150ms ease',
+            }}
+          >
+            {copied ? 'コピー済み' : 'コピー'}
+          </button>
+        )}
+      </div>
 
       <div
         role="region"

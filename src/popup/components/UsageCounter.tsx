@@ -10,19 +10,28 @@ interface UsageCounterProps {
 
 export function UsageCounter({ isPro, onUpgradeClick }: UsageCounterProps) {
   const [count, setCount] = useState(0);
+  const [userDismissed, setUserDismissed] = useState(false);
 
   useEffect(() => {
     getDailyCount().then((c) => setCount(c));
+
+    // 当日の「後で」フラグを読み込む
+    chrome.storage.local.get(['dismissed_date'], (result) => {
+      const today = new Date().toDateString();
+      if (result['dismissed_date'] === today) {
+        setUserDismissed(true);
+      }
+    });
   }, []);
 
   const remaining = Math.max(FREE_LIMIT - count, 0);
   const isLimitReached = count >= FREE_LIMIT;
-  const [showModal, setShowModal] = useState(false);
 
-  // countが更新されたらモーダル状態も更新
-  useEffect(() => {
-    if (isLimitReached) setShowModal(true);
-  }, [isLimitReached]);
+  const handleDismiss = () => {
+    const today = new Date().toDateString();
+    chrome.storage.local.set({ dismissed_date: today });
+    setUserDismissed(true);
+  };
 
   if (isPro) return null;
 
@@ -130,7 +139,7 @@ export function UsageCounter({ isPro, onUpgradeClick }: UsageCounterProps) {
       )}
 
       {/* 上限到達モーダル */}
-      {(isLimitReached || showModal) && (
+      {isLimitReached && !userDismissed && (
         <div
           role="dialog"
           aria-modal="true"
@@ -226,8 +235,8 @@ export function UsageCounter({ isPro, onUpgradeClick }: UsageCounterProps) {
             </button>
 
             <button
-              onClick={() => setShowModal(false)}
-              aria-label="モーダルを閉じる"
+              onClick={handleDismiss}
+              aria-label="今日はモーダルを閉じて後で確認する"
               type="button"
               style={{
                 width: '100%',

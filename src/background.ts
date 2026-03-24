@@ -125,6 +125,42 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   }
 });
 
+// ストリーク節目通知
+const STREAK_MILESTONES = [3, 7, 14, 30];
+
+function checkStreakMilestone(): void {
+  chrome.storage.local.get(['streakCount', 'lastUsedDate', 'lastMilestoneNotified'], (result) => {
+    const today = new Date().toDateString();
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    const lastUsed: string | undefined = result['lastUsedDate'];
+    const currentStreak: number = result['streakCount'] || 0;
+    const lastMilestoneNotified: number = result['lastMilestoneNotified'] || 0;
+
+    let newStreak = currentStreak;
+    if (lastUsed === today) {
+      newStreak = currentStreak;
+    } else if (lastUsed === yesterday) {
+      newStreak = currentStreak + 1;
+      chrome.storage.local.set({ streakCount: newStreak, lastUsedDate: today });
+    } else {
+      newStreak = 1;
+      chrome.storage.local.set({ streakCount: 1, lastUsedDate: today });
+    }
+
+    if (STREAK_MILESTONES.includes(newStreak) && newStreak !== lastMilestoneNotified) {
+      chrome.notifications.create(`streak_${newStreak}`, {
+        type: 'basic',
+        iconUrl: 'icons/icon128.png',
+        title: `${newStreak}日連続達成！`,
+        message: newStreak === 7
+          ? 'すき間AIを7日間使い続けています。あなたは上位15%のアクティブユーザーです！'
+          : `${newStreak}日連続でAI解析を続けています！`,
+      });
+      chrome.storage.local.set({ lastMilestoneNotified: newStreak });
+    }
+  });
+}
+
 // メッセージリスナー（非同期時は return true 必須）
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.type === 'GET_USAGE') {
@@ -139,5 +175,15 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       sendResponse({ isPro: result['isPro'] === true });
     });
     return true;
+  }
+
+  if (message.type === 'AI_USED') {
+    // AI使用時にストリーク節目チェック・週次カウント更新
+    chrome.storage.local.get(['weeklyUsageCount'], (result) => {
+      const weekly = ((result['weeklyUsageCount'] as number) || 0) + 1;
+      chrome.storage.local.set({ weeklyUsageCount: weekly });
+    });
+    checkStreakMilestone();
+    return false;
   }
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStreak } from '../hooks/useStreak';
 
 interface HeaderProps {
@@ -9,6 +9,13 @@ interface HeaderProps {
 export function Header({ dailyCount, isPro }: HeaderProps) {
   const isNearLimit = !isPro && dailyCount >= 9;
   const streak = useStreak();
+  const [weeklyCount, setWeeklyCount] = useState(0);
+
+  useEffect(() => {
+    chrome.storage.local.get(['weeklyUsageCount'], (result) => {
+      setWeeklyCount((result['weeklyUsageCount'] as number) || 0);
+    });
+  }, []);
 
   return (
     <header aria-label="SelecText AIヘッダー" style={{
@@ -30,6 +37,27 @@ export function Header({ dailyCount, isPro }: HeaderProps) {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        {/* 週次価値バッジ（1回以上使用時） */}
+        {weeklyCount > 0 && (
+          <div
+            aria-label={`今週${weeklyCount}件使用、約${weeklyCount * 2}分節約`}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              padding: '2px 8px',
+              background: 'rgba(99,102,241,0.12)',
+              border: '1px solid rgba(99,102,241,0.25)',
+              borderRadius: '6px',
+              fontSize: '10px',
+              fontWeight: 600,
+              color: '#818cf8',
+            }}
+          >
+            今週{weeklyCount}件 / {weeklyCount * 2}分節約
+          </div>
+        )}
+
         {/* ストリーク表示（2日以上連続の場合） */}
         {streak >= 2 && (
           <div

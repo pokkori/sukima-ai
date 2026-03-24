@@ -49,6 +49,17 @@ export function App() {
     init();
   }, []);
 
+  // chrome.storage の dailyCount リアルタイム同期
+  useEffect(() => {
+    const listener = (changes: { [key: string]: chrome.storage.StorageChange }, area: string) => {
+      if (area === 'local' && changes['selectext_daily_limit']) {
+        setDailyCount(changes['selectext_daily_limit'].newValue?.count || 0);
+      }
+    };
+    chrome.storage.onChanged.addListener(listener);
+    return () => chrome.storage.onChanged.removeListener(listener);
+  }, []);
+
   // content script / background からのAI結果を受信
   useEffect(() => {
     const listener = (message: AIResultMessage) => {
