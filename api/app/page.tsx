@@ -239,7 +239,7 @@ export default function HomePage() {
               <div style={{ fontSize: '14px', color: '#64748b', marginBottom: '20px' }}>永久無料・変更なし</div>
               <ul style={{ listStyle: 'none', textAlign: 'left', fontSize: '14px', color: '#94a3b8', padding: 0 }}>
                 <li style={{ padding: '6px 0' }}>10回/日</li>
-                <li style={{ padding: '6px 0' }}>全7種テンプレート</li>
+                <li style={{ padding: '6px 0' }}>全11種テンプレート</li>
                 <li style={{ padding: '6px 0' }}>履歴50件</li>
               </ul>
             </div>
@@ -277,7 +277,7 @@ export default function HomePage() {
               <div style={{ fontSize: '12px', color: '#6366f1', marginBottom: '20px' }}>1日あたり約27円</div>
               <ul style={{ listStyle: 'none', textAlign: 'left', fontSize: '14px', color: '#94a3b8', padding: 0 }}>
                 <li style={{ padding: '6px 0' }}>無制限</li>
-                <li style={{ padding: '6px 0' }}>全7種テンプレート</li>
+                <li style={{ padding: '6px 0' }}>全11種テンプレート</li>
                 <li style={{ padding: '6px 0' }}>優先サポート</li>
               </ul>
             </div>

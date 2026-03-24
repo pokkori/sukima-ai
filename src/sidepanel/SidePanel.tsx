@@ -17,6 +17,8 @@ export function SidePanel() {
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedPresetId, setSelectedPresetId] = useState('explain');
+  const [result, setResult] = useState('');
+  const [isStreaming, setIsStreaming] = useState(false);
 
   useEffect(() => {
     const init = async () => {
@@ -29,6 +31,20 @@ export function SidePanel() {
       setLoading(false);
     };
     init();
+  }, []);
+
+  useEffect(() => {
+    const listener = (message: { type: string; chunk?: string; action?: string }) => {
+      if (message.type === 'AI_RESULT_CHUNK') {
+        setResult(prev => prev + (message.chunk || ''));
+        setIsStreaming(true);
+        setActiveTab('result');
+      } else if (message.type === 'AI_RESULT_DONE') {
+        setIsStreaming(false);
+      }
+    };
+    chrome.runtime.onMessage.addListener(listener);
+    return () => chrome.runtime.onMessage.removeListener(listener);
   }, []);
 
   if (loading) {
@@ -143,7 +159,7 @@ export function SidePanel() {
       {/* コンテンツエリア（サイドパネルは縦長なので高さ制限なし） */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {activeTab === 'result' ? (
-          <ResultPanel text="" isStreaming={false} actionType={selectedPresetId} />
+          <ResultPanel text={result} isStreaming={isStreaming} actionType={selectedPresetId} />
         ) : (
           <HistoryList />
         )}
