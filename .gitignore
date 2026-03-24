@@ -16,3 +16,5 @@ Thumbs.db
 api/.next/
 api/node_modules/
 .next/
+
+.vercel
