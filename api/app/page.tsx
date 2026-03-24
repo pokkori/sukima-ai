@@ -99,10 +99,11 @@ export default function HomePage() {
                 aria-label={`${stat.label}: ${stat.value}`}
                 style={{
                   padding: '10px 20px',
-                  backdropFilter: 'blur(16px)',
-                  background: 'rgba(99,102,241,0.08)',
-                  border: '1px solid rgba(99,102,241,0.25)',
-                  borderRadius: '12px',
+                  background: 'rgba(255,255,255,0.08)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  borderRadius: '16px',
                   textAlign: 'center',
                 }}
               >
@@ -183,10 +184,11 @@ export default function HomePage() {
                 className="feature-card"
                 aria-label={`機能: ${feat.title} - ${feat.desc}`}
                 style={{
-                  backdropFilter: 'blur(16px)',
-                  background: 'rgba(15,15,26,0.7)',
-                  border: '1px solid rgba(99,102,241,0.2)',
-                  borderRadius: '12px',
+                  background: 'rgba(255,255,255,0.08)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  borderRadius: '16px',
                   padding: '20px',
                 }}
               >
@@ -218,17 +220,30 @@ export default function HomePage() {
         style={{ padding: '80px 20px', background: 'rgba(255,255,255,0.02)' }}
       >
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '32px', fontWeight: 700, textAlign: 'center', marginBottom: '48px' }}>
-            シンプルな料金プラン
-          </h2>
+          <div
+            style={{
+              background: 'rgba(255,255,255,0.08)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              border: '1px solid rgba(255,255,255,0.15)',
+              borderRadius: '16px',
+              padding: '12px',
+              marginBottom: '32px',
+            }}
+          >
+            <h2 style={{ fontSize: '32px', fontWeight: 700, textAlign: 'center', marginBottom: '0', paddingTop: '16px', color: '#e2e8f0' }}>
+              シンプルな料金プラン
+            </h2>
+          </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
             <div
               aria-label="無料プランの詳細"
               style={{
-                backdropFilter: 'blur(16px)',
-                background: 'rgba(15,15,26,0.7)',
-                border: '1px solid rgba(99,102,241,0.2)',
+                background: 'rgba(255,255,255,0.08)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255,255,255,0.15)',
                 borderRadius: '16px',
                 padding: '28px',
                 textAlign: 'center',
@@ -247,9 +262,10 @@ export default function HomePage() {
             <div
               aria-label="Proプランの詳細"
               style={{
-                backdropFilter: 'blur(16px)',
-                background: 'rgba(99,102,241,0.1)',
-                border: '1px solid #6366f1',
+                background: 'rgba(99,102,241,0.12)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                border: '1px solid rgba(99,102,241,0.6)',
                 borderRadius: '16px',
                 padding: '28px',
                 textAlign: 'center',
@@ -292,7 +308,7 @@ export default function HomePage() {
       >
         <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '12px' }}>SelecText AIを友達に教える</p>
         <a
-          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('SelecTextAIで英語テキストを瞬時に日本語解説・翻訳できる！Chrome拡張機能 #SelecTextAI #Chrome拡張機能 #AI翻訳 https://selectext-ai-api.vercel.app')}`}
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('SelecTextAIで英語テキストを瞬時に日本語解説・翻訳できる！Chrome拡張機能 #SelecTextAI #Chrome拡張機能 #AI翻訳 https://api-six-olive-54.vercel.app')}`}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="SelecText AIをXでシェアする（新しいタブで開きます）"
