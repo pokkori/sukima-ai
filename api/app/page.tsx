@@ -5,6 +5,16 @@ export const metadata: Metadata = {
   description: '英語テキストを選択して右クリック。Claude AIが瞬時に日本語で解説・翻訳・要約します。無料10回/日。確定申告・ビジネス・医療・子ども向けテンプレートも搭載。',
 };
 
+const featureCards = [
+  { title: '解説する', desc: '英語テキストを日本人ビジネスパーソン向けに300字以内で解説', color: '#3b82f6' },
+  { title: '日本語に翻訳', desc: '直訳でなく、日本語として自然に読めるように翻訳', color: '#10b981' },
+  { title: '要約する（3箇条）', desc: '要点を50字以内の3箇条にまとめてシンプルに把握', color: '#8b5cf6' },
+  { title: '確定申告・税務', desc: '日本の税制（所得税・消費税・法人税）との関連で解説', color: '#f59e0b' },
+  { title: 'ビジネス・契約', desc: '法的リスクや日本のビジネス慣行との違いを指摘', color: '#6366f1' },
+  { title: '医療・健康', desc: '日本語の医学用語に置き換えて分かりやすく解説', color: '#ec4899' },
+  { title: '子ども向け', desc: '小学生でも理解できる言葉で具体例を挙げながら説明', color: '#06b6d4' },
+];
+
 export default function HomePage() {
   return (
     <main style={{
@@ -12,16 +22,42 @@ export default function HomePage() {
       lineHeight: 1.6,
       color: '#e2e8f0',
     }}>
+      {/* ホバースタイル定義 */}
+      <style>{`
+        .cta-btn-primary {
+          transition: transform 300ms ease, box-shadow 300ms ease;
+        }
+        .cta-btn-primary:hover {
+          transform: scale(1.05);
+          box-shadow: 0 0 30px rgba(99,102,241,0.5);
+        }
+        .feature-card {
+          transition: transform 300ms ease;
+        }
+        .feature-card:hover {
+          transform: translateY(-4px);
+        }
+        .cta-btn-secondary {
+          transition: transform 300ms ease;
+        }
+        .cta-btn-secondary:hover {
+          transform: scale(1.02);
+        }
+      `}</style>
+
       {/* ヒーローセクション */}
-      <section style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '60px 20px',
-        textAlign: 'center',
-      }}>
+      <section
+        aria-label="SelecText AIのメインビジュアルとCTA"
+        style={{
+          minHeight: '100vh',
+          background: 'linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '60px 20px',
+          textAlign: 'center',
+        }}
+      >
         <div style={{ maxWidth: '700px' }}>
           <div style={{ marginBottom: '24px' }}>
             <svg width="80" height="80" viewBox="0 0 80 80" fill="none" style={{ marginBottom: '16px' }} aria-hidden="true">
@@ -41,10 +77,42 @@ export default function HomePage() {
             確定申告・ビジネス・医療・子ども向けテンプレートで専門的な解析も可能。
           </p>
 
+          {/* カウントアップ統計バッジ */}
+          <div style={{
+            display: 'flex',
+            gap: '16px',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            marginBottom: '32px',
+          }}>
+            {[
+              { label: '無料利用', value: '10回/日' },
+              { label: 'テンプレート', value: '7種類' },
+              { label: '応答方式', value: 'Streaming対応' },
+            ].map((stat) => (
+              <div
+                key={stat.label}
+                aria-label={`${stat.label}: ${stat.value}`}
+                style={{
+                  padding: '10px 20px',
+                  backdropFilter: 'blur(16px)',
+                  background: 'rgba(99,102,241,0.08)',
+                  border: '1px solid rgba(99,102,241,0.25)',
+                  borderRadius: '12px',
+                  textAlign: 'center',
+                }}
+              >
+                <div style={{ fontSize: '18px', fontWeight: 800, color: '#6366f1' }}>{stat.value}</div>
+                <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '2px' }}>{stat.label}</div>
+              </div>
+            ))}
+          </div>
+
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <a
               href="https://chrome.google.com/webstore"
-              aria-label="Chrome Web Store でインストールする"
+              className="cta-btn-primary"
+              aria-label="Chrome Web Store でSelecText AIをインストールする（無料）"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -63,12 +131,14 @@ export default function HomePage() {
             </a>
             <a
               href="#features"
-              aria-label="機能詳細を見る"
+              className="cta-btn-secondary"
+              aria-label="機能詳細セクションを見る"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 minHeight: '52px',
                 padding: '12px 28px',
+                backdropFilter: 'blur(16px)',
                 background: 'rgba(255,255,255,0.06)',
                 color: '#e2e8f0',
                 borderRadius: '12px',
@@ -89,7 +159,11 @@ export default function HomePage() {
       </section>
 
       {/* 機能セクション */}
-      <section id="features" style={{ padding: '80px 20px', background: '#0f0f1a' }}>
+      <section
+        id="features"
+        aria-label="SelecText AIの機能一覧"
+        style={{ padding: '80px 20px', background: '#0f0f1a' }}
+      >
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <h2 style={{ fontSize: '32px', fontWeight: 700, textAlign: 'center', marginBottom: '16px' }}>
             競合ゼロの差別化機能
@@ -99,21 +173,19 @@ export default function HomePage() {
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
-            {[
-              { title: '解説する', desc: '英語テキストを日本人ビジネスパーソン向けに300字以内で解説', color: '#3b82f6' },
-              { title: '日本語に翻訳', desc: '直訳でなく、日本語として自然に読めるように翻訳', color: '#10b981' },
-              { title: '要約する（3箇条）', desc: '要点を50字以内の3箇条にまとめてシンプルに把握', color: '#8b5cf6' },
-              { title: '確定申告・税務', desc: '日本の税制（所得税・消費税・法人税）との関連で解説', color: '#f59e0b' },
-              { title: 'ビジネス・契約', desc: '法的リスクや日本のビジネス慣行との違いを指摘', color: '#6366f1' },
-              { title: '医療・健康', desc: '日本語の医学用語に置き換えて分かりやすく解説', color: '#ec4899' },
-              { title: '子ども向け', desc: '小学生でも理解できる言葉で具体例を挙げながら説明', color: '#06b6d4' },
-            ].map((feat) => (
-              <div key={feat.title} style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.06)',
-                borderRadius: '12px',
-                padding: '20px',
-              }}>
+            {featureCards.map((feat) => (
+              <div
+                key={feat.title}
+                className="feature-card"
+                aria-label={`機能: ${feat.title} - ${feat.desc}`}
+                style={{
+                  backdropFilter: 'blur(16px)',
+                  background: 'rgba(15,15,26,0.7)',
+                  border: '1px solid rgba(99,102,241,0.2)',
+                  borderRadius: '12px',
+                  padding: '20px',
+                }}
+              >
                 <div style={{
                   display: 'inline-block',
                   padding: '3px 10px',
@@ -136,38 +208,50 @@ export default function HomePage() {
       </section>
 
       {/* 料金セクション */}
-      <section id="pricing" style={{ padding: '80px 20px', background: 'rgba(255,255,255,0.02)' }}>
+      <section
+        id="pricing"
+        aria-label="料金プランの説明"
+        style={{ padding: '80px 20px', background: 'rgba(255,255,255,0.02)' }}
+      >
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
           <h2 style={{ fontSize: '32px', fontWeight: 700, textAlign: 'center', marginBottom: '48px' }}>
             シンプルな料金プラン
           </h2>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-            <div style={{
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: '16px',
-              padding: '28px',
-              textAlign: 'center',
-            }}>
+            <div
+              aria-label="無料プランの詳細"
+              style={{
+                backdropFilter: 'blur(16px)',
+                background: 'rgba(15,15,26,0.7)',
+                border: '1px solid rgba(99,102,241,0.2)',
+                borderRadius: '16px',
+                padding: '28px',
+                textAlign: 'center',
+              }}
+            >
               <h3 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '8px' }}>無料</h3>
               <div style={{ fontSize: '36px', fontWeight: 800, color: '#10b981', marginBottom: '4px' }}>¥0</div>
               <div style={{ fontSize: '14px', color: '#64748b', marginBottom: '20px' }}>永久無料・変更なし</div>
-              <ul style={{ listStyle: 'none', textAlign: 'left', fontSize: '14px', color: '#94a3b8' }}>
+              <ul style={{ listStyle: 'none', textAlign: 'left', fontSize: '14px', color: '#94a3b8', padding: 0 }}>
                 <li style={{ padding: '6px 0' }}>10回/日</li>
                 <li style={{ padding: '6px 0' }}>全7種テンプレート</li>
                 <li style={{ padding: '6px 0' }}>履歴50件</li>
               </ul>
             </div>
 
-            <div style={{
-              background: 'rgba(99,102,241,0.1)',
-              border: '1px solid #6366f1',
-              borderRadius: '16px',
-              padding: '28px',
-              textAlign: 'center',
-              position: 'relative',
-            }}>
+            <div
+              aria-label="Proプランの詳細"
+              style={{
+                backdropFilter: 'blur(16px)',
+                background: 'rgba(99,102,241,0.1)',
+                border: '1px solid #6366f1',
+                borderRadius: '16px',
+                padding: '28px',
+                textAlign: 'center',
+                position: 'relative',
+              }}
+            >
               <div style={{
                 position: 'absolute',
                 top: '-12px',
@@ -187,7 +271,7 @@ export default function HomePage() {
               <div style={{ fontSize: '14px', color: '#64748b', marginBottom: '4px' }}>/月 または</div>
               <div style={{ fontSize: '18px', fontWeight: 700, color: '#94a3b8', marginBottom: '4px' }}>¥9,800/年</div>
               <div style={{ fontSize: '12px', color: '#6366f1', marginBottom: '20px' }}>1日あたり約27円</div>
-              <ul style={{ listStyle: 'none', textAlign: 'left', fontSize: '14px', color: '#94a3b8' }}>
+              <ul style={{ listStyle: 'none', textAlign: 'left', fontSize: '14px', color: '#94a3b8', padding: 0 }}>
                 <li style={{ padding: '6px 0' }}>無制限</li>
                 <li style={{ padding: '6px 0' }}>全7種テンプレート</li>
                 <li style={{ padding: '6px 0' }}>優先サポート</li>
@@ -198,13 +282,16 @@ export default function HomePage() {
       </section>
 
       {/* Xシェアセクション */}
-      <section style={{ padding: '40px 20px', background: '#0f0f1a', textAlign: 'center' }}>
+      <section
+        aria-label="SelecText AIをXでシェアする"
+        style={{ padding: '40px 20px', background: '#0f0f1a', textAlign: 'center' }}
+      >
         <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '12px' }}>SelecText AIを友達に教える</p>
         <a
           href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('SelecTextAIで英語テキストを瞬時に日本語解説・翻訳できる！Chrome拡張機能 #SelecTextAI #Chrome拡張機能 #AI翻訳 https://selectext-ai-api.vercel.app')}`}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="SelecText AIをXでシェアする"
+          aria-label="SelecText AIをXでシェアする（新しいタブで開きます）"
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -218,18 +305,31 @@ export default function HomePage() {
             fontWeight: 600,
           }}
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
           Xでシェア
         </a>
       </section>
 
       {/* フッター */}
-      <footer style={{ padding: '40px 20px', borderTop: '1px solid rgba(255,255,255,0.06)', textAlign: 'center', color: '#64748b', fontSize: '14px' }}>
+      <footer
+        aria-label="フッターナビゲーション"
+        style={{
+          padding: '40px 20px',
+          borderTop: '1px solid rgba(255,255,255,0.06)',
+          textAlign: 'center',
+          color: '#64748b',
+          fontSize: '14px',
+        }}
+      >
         <p>SelecText AI - 日本語特化 AI Chrome拡張機能</p>
         <p style={{ marginTop: '8px' }}>
           <a href="/privacy" aria-label="プライバシーポリシーを見る" style={{ color: '#64748b', textDecoration: 'none' }}>プライバシーポリシー</a>
           {' | '}
           <a href="/terms" aria-label="利用規約を見る" style={{ color: '#64748b', textDecoration: 'none' }}>利用規約</a>
+          {' | '}
+          <a href="/tokusho" aria-label="特定商取引法に基づく表記を見る" style={{ color: '#64748b', textDecoration: 'none' }}>特定商取引法</a>
         </p>
       </footer>
     </main>
