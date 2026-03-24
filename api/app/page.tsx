@@ -8,11 +8,15 @@ export const metadata: Metadata = {
 const featureCards = [
   { title: '解説する', desc: '英語テキストを日本人ビジネスパーソン向けに300字以内で解説', color: '#3b82f6' },
   { title: '日本語に翻訳', desc: '直訳でなく、日本語として自然に読めるように翻訳', color: '#10b981' },
+  { title: '英訳（日→英）', desc: '日本語をビジネスシーンで使える丁寧な英語に翻訳', color: '#14b8a6' },
   { title: '要約する（3箇条）', desc: '要点を50字以内の3箇条にまとめてシンプルに把握', color: '#8b5cf6' },
   { title: '確定申告・税務', desc: '日本の税制（所得税・消費税・法人税）との関連で解説', color: '#f59e0b' },
   { title: 'ビジネス・契約', desc: '法的リスクや日本のビジネス慣行との違いを指摘', color: '#6366f1' },
+  { title: '法律チェック', desc: '法的観点から注意すべきリスクや問題点を分析', color: '#ef4444' },
+  { title: '契約書チェック', desc: '契約書・規約の不利な条件やリスク条項を箇条書きで指摘', color: '#f97316' },
+  { title: 'ビジネスメール化', desc: '入力内容をビジネスメール形式（件名・敬語・締め）に変換', color: '#84cc16' },
+  { title: 'SNS投稿化', desc: 'X（Twitter）用140文字・ハッシュタグ付きに最適化', color: '#000000' },
   { title: '医療・健康', desc: '日本語の医学用語に置き換えて分かりやすく解説', color: '#ec4899' },
-  { title: '子ども向け', desc: '小学生でも理解できる言葉で具体例を挙げながら説明', color: '#06b6d4' },
 ];
 
 export default function HomePage() {
@@ -87,7 +91,7 @@ export default function HomePage() {
           }}>
             {[
               { label: '無料利用', value: '10回/日' },
-              { label: 'テンプレート', value: '7種類' },
+              { label: 'テンプレート', value: '11種類' },
               { label: '応答方式', value: 'Streaming対応' },
             ].map((stat) => (
               <div
@@ -166,10 +170,10 @@ export default function HomePage() {
       >
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <h2 style={{ fontSize: '32px', fontWeight: 700, textAlign: 'center', marginBottom: '16px' }}>
-            競合ゼロの差別化機能
+            Chrome拡張AI - 日本語業務特化11テンプレート
           </h2>
           <p style={{ fontSize: '16px', color: '#94a3b8', textAlign: 'center', marginBottom: '48px' }}>
-            日本語特化・右クリック即発動・Streaming応答・業種別テンプレートは競合なし
+            右クリック即発動・AI翻訳・法律チェック・契約書チェック・SNS投稿化・ビジネスメール化に対応
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>

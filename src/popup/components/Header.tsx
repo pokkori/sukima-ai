@@ -58,8 +58,8 @@ export function Header({ dailyCount, isPro }: HeaderProps) {
           </div>
         )}
 
-        {/* ストリーク表示（2日以上連続の場合） */}
-        {streak >= 2 && (
+        {/* ストリーク表示（1日以上連続の場合） */}
+        {streak >= 1 && (
           <div
             aria-label={`${streak}日連続使用中`}
             style={{

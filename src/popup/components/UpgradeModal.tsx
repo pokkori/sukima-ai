@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ExtPay from 'extpay';
 
 const extpay = ExtPay('selectext-ai');
@@ -8,7 +8,13 @@ interface UpgradeModalProps {
 }
 
 export function UpgradeModal({ onClose }: UpgradeModalProps) {
-  const handleUpgrade = async () => {
+  const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('yearly');
+
+  const handleUpgradeMonthly = async () => {
+    await extpay.openPaymentPage();
+  };
+
+  const handleUpgradeYearly = async () => {
     await extpay.openPaymentPage();
   };
 
@@ -62,35 +68,57 @@ export function UpgradeModal({ onClose }: UpgradeModalProps) {
           </p>
         </div>
 
-        {/* 料金プラン（UXリサーチ追加: 年額の分解表示） */}
+        {/* 料金プラン選択（2ボタン: 月額 / 年額） */}
         <div style={{ display: 'flex', gap: '8px', marginBottom: '20px' }}>
-          <div style={{
-            flex: 1,
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: '10px',
-            padding: '12px',
-            textAlign: 'center',
-          }}>
+          <button
+            type="button"
+            onClick={() => setSelectedPlan('monthly')}
+            aria-label="月額プランを選択 月額980円"
+            style={{
+              flex: 1,
+              background: selectedPlan === 'monthly'
+                ? 'rgba(99,102,241,0.15)'
+                : 'rgba(255,255,255,0.05)',
+              border: selectedPlan === 'monthly'
+                ? '2px solid #6366f1'
+                : '1px solid rgba(255,255,255,0.08)',
+              borderRadius: '10px',
+              padding: '12px',
+              textAlign: 'center',
+              cursor: 'pointer',
+              color: 'inherit',
+            }}
+          >
             <div style={{ fontSize: '11px', color: '#64748b', marginBottom: '4px' }}>月払い</div>
             <div style={{ fontSize: '18px', fontWeight: 700, color: '#e2e8f0' }}>¥980</div>
             <div style={{ fontSize: '11px', color: '#64748b' }}>/月</div>
-          </div>
-          <div style={{
-            flex: 1,
-            background: 'rgba(99,102,241,0.15)',
-            border: '1px solid #6366f1',
-            borderRadius: '10px',
-            padding: '12px',
-            textAlign: 'center',
-            position: 'relative',
-          }}>
+          </button>
+          <button
+            type="button"
+            onClick={() => setSelectedPlan('yearly')}
+            aria-label="年額プランを選択 年額9800円 17パーセントオフ"
+            style={{
+              flex: 1,
+              background: selectedPlan === 'yearly'
+                ? 'rgba(99,102,241,0.15)'
+                : 'rgba(255,255,255,0.05)',
+              border: selectedPlan === 'yearly'
+                ? '2px solid #6366f1'
+                : '1px solid rgba(255,255,255,0.08)',
+              borderRadius: '10px',
+              padding: '12px',
+              textAlign: 'center',
+              cursor: 'pointer',
+              color: 'inherit',
+              position: 'relative',
+            }}
+          >
             <div style={{
               position: 'absolute',
               top: '-8px',
               left: '50%',
               transform: 'translateX(-50%)',
-              background: '#6366f1',
+              background: '#10b981',
               color: '#fff',
               fontSize: '9px',
               fontWeight: 700,
@@ -98,18 +126,20 @@ export function UpgradeModal({ onClose }: UpgradeModalProps) {
               borderRadius: '3px',
               whiteSpace: 'nowrap',
             }}>
-              おすすめ
+              17%オフ
             </div>
             <div style={{ fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>年払い</div>
             <div style={{ fontSize: '18px', fontWeight: 700, color: '#e2e8f0' }}>¥9,800</div>
             <div style={{ fontSize: '11px', color: '#6366f1' }}>1日あたり約27円</div>
-          </div>
+          </button>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <button
-            onClick={handleUpgrade}
-            aria-label="Proプランにアップグレードする"
+            onClick={selectedPlan === 'yearly' ? handleUpgradeYearly : handleUpgradeMonthly}
+            aria-label={selectedPlan === 'yearly'
+              ? 'Pro年額プラン（9800円・17%オフ）にアップグレードする'
+              : 'Pro月額プラン（980円/月）にアップグレードする'}
             type="button"
             style={{
               minHeight: '44px',
@@ -123,7 +153,9 @@ export function UpgradeModal({ onClose }: UpgradeModalProps) {
               cursor: 'pointer',
             }}
           >
-            Proにアップグレード
+            {selectedPlan === 'yearly'
+              ? 'Pro年額（¥9,800 / 17%オフ）で始める'
+              : 'Pro月額（¥980/月）で始める'}
           </button>
           <button
             onClick={onClose}

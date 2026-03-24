@@ -52,6 +52,11 @@ function registerContextMenus(): void {
     { id: 'business', title: 'ビジネス・契約で使う', parentId: 'templates' },
     { id: 'medical', title: '健康・医療を解説', parentId: 'templates' },
     { id: 'simple', title: 'やさしい言葉で解説（子ども向け）', parentId: 'templates' },
+    { id: 'legal', title: '法律チェック', parentId: 'templates' },
+    { id: 'business_email', title: 'ビジネスメール化', parentId: 'templates' },
+    { id: 'contract_check', title: '契約書チェック', parentId: 'templates' },
+    { id: 'sns', title: 'SNS投稿化', parentId: 'templates' },
+    { id: 'translate_ja_en', title: '英訳（日→英）', parentId: 'templates' },
   ];
 
   templateItems.forEach(item =>
@@ -114,11 +119,15 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === 'weeklyReport') {
     chrome.storage.local.get(['weeklyUsageCount'], (result) => {
       const count = (result['weeklyUsageCount'] as number) || 0;
+      const savedMinutes = count * 3;
+      const message = count > 0
+        ? `今週${count}回・約${savedMinutes}分を節約しました！Pro版でさらに効率UP`
+        : '今週まだ使っていません。選択テキストをAIで処理してみませんか？';
       chrome.notifications.create('weeklyReport', {
         type: 'basic',
         iconUrl: 'icon128.png',
         title: 'すき間AIの週次レポート',
-        message: `今週は${count}回使用しました！引き続きご活用ください。`,
+        message,
       });
       chrome.storage.local.set({ weeklyUsageCount: 0 });
     });

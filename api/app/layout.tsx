@@ -30,10 +30,11 @@ const jsonLd = {
   "description": "英語テキストを選択して右クリック。Claude AIが瞬時に日本語で解説・翻訳・要約します。",
   "url": "https://selectext-ai-api.vercel.app",
   "offers": {
-    "@type": "Offer",
-    "price": "0",
+    "@type": "AggregateOffer",
+    "lowPrice": "0",
+    "highPrice": "9800",
     "priceCurrency": "JPY",
-    "description": "無料10回/日。プロプランは年額9,800円",
+    "offerCount": "2",
   },
 };
 
