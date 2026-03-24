@@ -13,11 +13,13 @@ export default defineConfig({
         options: resolve(__dirname, 'src/options/index.tsx'),
         background: resolve(__dirname, 'src/background.ts'),
         content: resolve(__dirname, 'src/content.ts'),
+        sidepanel: resolve(__dirname, 'src/sidepanel/index.tsx'),
       },
       output: {
         entryFileNames: (chunk) => {
           if (chunk.name === 'popup') return 'popup/popup.js';
           if (chunk.name === 'options') return 'options/options.js';
+          if (chunk.name === 'sidepanel') return 'sidepanel/sidepanel.js';
           return '[name].js';
         },
         chunkFileNames: '[name]-[hash].js',

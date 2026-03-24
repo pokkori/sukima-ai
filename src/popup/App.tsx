@@ -4,6 +4,8 @@ import { ResultPanel } from './components/ResultPanel';
 import { HistoryList } from './components/HistoryList';
 import { UpgradeModal } from './components/UpgradeModal';
 import { OnboardingFlow } from './components/OnboardingFlow';
+import { PrivacyBadge } from './components/PrivacyBadge';
+import { UsageCounter } from './components/UsageCounter';
 import { getDailyCount } from './hooks/useDailyLimit';
 
 type Tab = 'result' | 'history';
@@ -71,6 +73,11 @@ export function App() {
     }}>
       <Header dailyCount={dailyCount} isPro={isPro} />
 
+      {/* プライバシーバッジ */}
+      <div style={{ padding: '6px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <PrivacyBadge />
+      </div>
+
       {/* タブナビゲーション */}
       <div style={{
         display: 'flex',
@@ -111,39 +118,8 @@ export function App() {
         )}
       </div>
 
-      {/* アップグレード誘導バナー（制限近い場合） */}
-      {!isPro && dailyCount >= 8 && (
-        <div style={{
-          padding: '8px 16px',
-          background: 'rgba(245,158,11,0.1)',
-          borderTop: '1px solid rgba(245,158,11,0.2)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-          <span style={{ fontSize: '12px', color: '#f59e0b' }}>
-            残り {10 - dailyCount} 回で無料枠終了
-          </span>
-          <button
-            onClick={() => setShowUpgrade(true)}
-            aria-label="Proプランへアップグレードする"
-            type="button"
-            style={{
-              minHeight: '32px',
-              padding: '4px 12px',
-              background: '#f59e0b',
-              border: 'none',
-              borderRadius: '6px',
-              color: '#000',
-              fontSize: '12px',
-              fontWeight: 600,
-              cursor: 'pointer',
-            }}
-          >
-            Pro へ
-          </button>
-        </div>
-      )}
+      {/* 使用カウンター（残り回数バー + バナー + モーダル） */}
+      <UsageCounter isPro={isPro} onUpgradeClick={() => setShowUpgrade(true)} />
 
       {showUpgrade && <UpgradeModal onClose={() => setShowUpgrade(false)} />}
     </div>

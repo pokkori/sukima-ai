@@ -31,12 +31,16 @@
       "run_at": "document_idle"
     }
   ],
+  "side_panel": {
+    "default_path": "sidepanel/sidepanel.html"
+  },
   "permissions": [
     "contextMenus",
     "storage",
     "activeTab",
     "scripting",
-    "alarms"
+    "alarms",
+    "sidePanel"
   ],
   "host_permissions": [
     "https://selectext-ai-api.vercel.app/*",
