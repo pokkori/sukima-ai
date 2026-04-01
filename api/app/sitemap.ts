@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-const baseUrl = 'https://selectext-ai-api.vercel.app';
+const baseUrl = 'https://api-six-olive-54.vercel.app';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

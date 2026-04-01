@@ -30,7 +30,6 @@ export function PrivacyBadge() {
           outline: 'none',
           transition: 'background 150ms ease, border-color 150ms ease',
         }}
-        onMouseEnterCapture={undefined}
       >
         {/* シールドSVGアイコン */}
         <svg

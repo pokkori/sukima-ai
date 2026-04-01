@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/'],
     },
-    sitemap: 'https://selectext-ai-api.vercel.app/sitemap.xml',
+    sitemap: 'https://api-six-olive-54.vercel.app/sitemap.xml',
   };
 }

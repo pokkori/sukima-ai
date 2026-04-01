@@ -33,7 +33,7 @@ class MockRequest {
   }
 
   get url() {
-    return 'https://selectext-ai-api.vercel.app/api/ai';
+    return 'https://api-six-olive-54.vercel.app/api/ai';
   }
 }
 

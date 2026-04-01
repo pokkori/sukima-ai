@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://selectext-ai-api.vercel.app'),
+  metadataBase: new URL('https://api-six-olive-54.vercel.app'),
   title: 'SelecText AI - 選択テキストをAIで解説・翻訳・要約',
   description: '英語テキストを選択して右クリック。Claude AIが瞬時に日本語で解説・翻訳・要約します。ビジネスパーソン・学習者向け日本語特化AI Chrome拡張機能。',
   keywords: ['AI翻訳 拡張機能', '英語 わからない 解説', 'Chrome拡張機能 AI', '日本語翻訳', 'テキスト解説'],
   openGraph: {
     title: 'SelecText AI - 選択テキストをAIで解説・翻訳・要約',
     description: '英語テキストを選択して右クリック。AIが瞬時に日本語解説・翻訳・要約',
-    url: 'https://selectext-ai-api.vercel.app',
+    url: 'https://api-six-olive-54.vercel.app',
     siteName: 'SelecText AI',
     locale: 'ja_JP',
     type: 'website',
@@ -27,7 +27,7 @@ const jsonLdSoftware = {
   "applicationCategory": "BrowserApplication",
   "operatingSystem": "Chrome",
   "description": "英語テキストを選択して右クリック。Claude AIが瞬時に日本語で解説・翻訳・要約します。",
-  "url": "https://selectext-ai-api.vercel.app",
+  "url": "https://api-six-olive-54.vercel.app",
   "offers": {
     "@type": "AggregateOffer",
     "lowPrice": "0",
