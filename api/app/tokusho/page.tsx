@@ -22,7 +22,7 @@ export default function TokushoPage() {
             </tr>
             <tr className="border-b border-white/10">
               <th className="py-3 pr-4 text-left text-slate-400">電話番号</th>
-              <td className="py-3">請求があれば速やかに開示します</td>
+              <td className="py-3">090-6093-5290</td>
             </tr>
             <tr className="border-b border-white/10">
               <th className="py-3 pr-4 text-left text-slate-400">メールアドレス</th>
